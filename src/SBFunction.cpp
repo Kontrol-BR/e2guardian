@@ -198,7 +198,6 @@ String SBFunction::getBIFunct(unsigned int &id) {    // get built-in function (a
         if (i < SB_FUNC_MAP_SIZE)
             return bi_funct_map[i];
     }
-    else
         return String(id);
 };
 

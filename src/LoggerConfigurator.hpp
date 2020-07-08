@@ -17,7 +17,9 @@ class LoggerConfigurator{
   LoggerConfigurator(Logger* logger);
   ~LoggerConfigurator();
 
-  static const std::string PREFIX;
+  static const std::string prefix;
+
+#define PREFIX prefix
 
   // option: log_{source}={output}[, filename]
   void configure(const std::string option);

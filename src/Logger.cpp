@@ -15,7 +15,9 @@
 #include <sstream>
 #include <string>
 #include <syslog.h>
-#include "Logger.hpp"
+#include "LoggerReal.hpp"
+
+extern thread_local std::string thread_id;
 
 // -------------------------------------------------------------
 // --- Constructor
@@ -34,10 +36,10 @@ Logger::Logger() {
 Logger::~Logger() {
   closelog();
 }
-
-const std::string Logger::SOURCES[] = {"info", "error", "access", "config", "story", "icap", "icapc", "clamav", "thhtps", \
-                                      "debug", "trace", "debugnet", "debugsb", "debugchunk", "debugregexp"};
-const std::string Logger::DESTINATIONS[] = {"none", "stdout", "stderr", "syslog", "file"};
+ // moved to LoggerReal.hpp
+//const std::string Logger::SOURCES[] = {"info", "error", "access", "config", "story", "icap", "icapc", "clamav", "thhtps", \
+//                                      "debug", "trace", "debugnet", "debugsb", "debugchunk", "debugregexp"};
+//const std::string Logger::DESTINATIONS[] = {"none", "stdout", "stderr", "syslog", "file"};
 
 // -------------------------------------------------------------
 // --- Helper
@@ -82,25 +84,25 @@ struct Logger::Helper
 // -------------------------------------------------------------
 
 LoggerSource Logger::string2source(std::string source){
-  for( int i=0; i < static_cast<int>(LoggerSource::__MAX_VALUE); i++)
+  for( int i=0; i < LS_MAX_VALUE; i++)
   {
-    if (Logger::SOURCES[i] == source) return static_cast<LoggerSource>(i);
+    if (SOURCES[i] == source) return static_cast<LoggerSource>(i);
   }
   return LoggerSource::info;
 }
 LoggerDestination Logger::string2dest(std::string destination){
-  for( int i=0; i < static_cast<int>(LoggerDestination::__MAX_VALUE); i++)
+  for( int i=0; i < LD_MAX_VALUE; i++)
   {
-    if (Logger::DESTINATIONS[i] == destination) return static_cast<LoggerDestination>(i);
+    if (DESTINATIONS[i] == destination) return static_cast<LoggerDestination>(i);
   }
   return LoggerDestination::none;
 }
 
 std::string Logger::source2string(LoggerSource source){
-  return Logger::SOURCES[static_cast<int>(source)];
+  return SOURCES[static_cast<int>(source)];
 }
 std::string Logger::dest2string(LoggerDestination dest){
-  return Logger::DESTINATIONS[static_cast<int>(dest)];
+  return DESTINATIONS[static_cast<int>(dest)];
 }
 
 

@@ -765,7 +765,7 @@ void HTTPHeader::dbshowheader(String *url, const char *clientip)
     //std::hash<std::thread::id> htid;
 //    std::thread::id tid = std::this_thread::get_id();
 //    std::size_t tid = htid(std::this_thread::get_id());
-    const char *tid = thread_id.c_str();
+//    const char *tid = thread_id.c_str();
 
 	if (header.size() != 0){
         String *line;
@@ -802,7 +802,7 @@ void HTTPHeader::dbshowheader(bool outgoing)
 
     std::hash<std::thread::id> htid;
 //    std::thread::id tid = std::this_thread::get_id();
-    std::size_t tid = htid(std::this_thread::get_id());
+//    std::size_t tid = htid(std::this_thread::get_id());
 
     if (header.size() != 0){
         String *line;

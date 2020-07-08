@@ -466,7 +466,7 @@ void handle_connections(int tindex)
                 ++dystat->conx;
 
                 int rc = h.handlePeer(*peersock, peersockip, dystat, rec.ct_type); // deal with the connection
-                logger_debug("handle_peer returned: ", String(rc));
+                logger_debug("handle_peer returned: ", rc);
 
                 --dystat->busychildren;
                 delete peersock;
@@ -1231,9 +1231,9 @@ void log_listener(std::string log_location, bool is_RQlog, bool logsyslog, Queue
     } catch (...) {
         logger_error("log_listener caught unexpected exception - exiting");
     }
-    if (!logger_ttg)
+    if (!logger_ttg) {
         logger_error("log_listener exiting with error");
-    else if (o.logconerror)
+    }else if (o.logconerror)
         logger_error("log_listener exiting");
 
     return; // It is only possible to reach here with an error
@@ -1605,9 +1605,9 @@ int fc_controlit()   //
             logger_trace("gentle reload activated");
 
             logger_info("Reconfiguring E2guardian: gentle reload starting");
-            if (o.createLists(++reload_cnt))
+            if (o.createLists(++reload_cnt)) {
                 logger_info("Reconfiguring E2guardian: gentle reload completed");
-            else
+            } else
                 logger_info("%sReconfiguring E2guardian: gentle reload failed");
 
             gentlereload = false;

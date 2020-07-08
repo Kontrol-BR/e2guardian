@@ -10,7 +10,7 @@
 #include "FatController.hpp"
 #include "SysV.hpp"
 #include "Queue.hpp"
-#include "Logger.hpp"
+#include "LoggerReal.hpp"   // see note below re Logger logger and extern defs
 #include "LoggerConfigurator.hpp"
 
 #include <cstdlib>
@@ -39,8 +39,10 @@
 
 OptionContainer o;
 thread_local std::string thread_id;
+Logger e2logger;       // logger was never defined  - extern is reference to a global which is defined elsewhere, normally in main.cpp
+// the term logger was redifi
 
-LoggerConfigurator loggerConfig(&logger);
+LoggerConfigurator loggerConfig(&e2logger);
 bool is_daemonised;
 
 // regexp used during URL decoding by HTTPHeader
@@ -88,10 +90,10 @@ int main(int argc, char *argv[])
     srand(time(NULL));
     int rc;
 
-    logger.setSyslogName("e2guardian");
+    e2logger.setSyslogName("e2guardian");
 #if E2DEBUG
-    logger.enable(LoggerSource::debug);
-    logger.enable(LoggerSource::trace);
+    e2logger.enable(LoggerSource::debug);
+    e2logger.enable(LoggerSource::trace);
 #endif    
 
     logger_info("Start ", prog_name );
@@ -206,10 +208,10 @@ int main(int argc, char *argv[])
 
     if ( o.SB_trace ) {
         logger_info("Enable Storyboard tracing !!");
-        logger.enable(LoggerSource::story);
+        e2logger.enable(LoggerSource::story);
     }
     if ( ! o.name_suffix.empty() ) {
-        logger.setSyslogName(prog_name + o.name_suffix);
+        e2logger.setSyslogName(prog_name + o.name_suffix);
     }
 
     if (total_block_list && !o.readinStdin()) {

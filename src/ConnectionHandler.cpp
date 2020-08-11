@@ -882,7 +882,7 @@ int ConnectionHandler::handleConnection(Socket &peerconn, String &ip, bool ismit
 
             // is this user banned?
             //isbanneduser = false;
-            if (o.use_xforwardedfor) {
+            if (o.use_xforwardedfor && !ismitm) {  // don't do this for mitm
                 bool use_xforwardedfor;
                 if (o.xforwardedfor_filter_ip.size() > 0) {
                     use_xforwardedfor = false;
@@ -899,6 +899,8 @@ int ConnectionHandler::handleConnection(Socket &peerconn, String &ip, bool ismit
                     std::string xforwardip(header.getXForwardedForIP());
                     if (xforwardip.length() > 6) {
                         clientip = xforwardip;
+                        ip = clientip;
+                        header.setClientIP(ip);
                     }
 #ifdef DGDEBUG
                     std::cerr << thread_id << " -using x-forwardedfor:" << clientip << std::endl;

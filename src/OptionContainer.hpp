@@ -140,7 +140,6 @@ class OptionContainer
     std::string log_location;
     std::string RQlog_location;
     bool log_requests = false;
-    std::string stat_location;
     std::string ipc_filename;
     std::string urlipc_filename;
     std::string ipipc_filename;
@@ -272,11 +271,11 @@ class OptionContainer
     std::string conffilename;
  //   std::string html_template_location;
     std::string group_names_list_location;
+    int reporting_level = 0;
 
     private:
     std::deque<std::string> conffile;
     bool readConfFile(const char *filename, String &list_pwd);
-    int reporting_level = 0;
 
 
     bool loadDMPlugins();
